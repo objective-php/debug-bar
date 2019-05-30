@@ -1,2 +1,2 @@
-# debug-bar
+# debugging-tools
 Debug bar for Objective PHP
