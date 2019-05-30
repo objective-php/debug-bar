@@ -1,0 +1,33 @@
+{
+  "name": "objective-php/debugging-tools",
+  "description": "Routing mechanism for Objective PHP",
+  "type": "package",
+  "keywords": [
+    "debugging",
+    "debug bar",
+    "objective php"
+  ],
+  "homepage": "https://github.com/objective-php/debugging-tools",
+  "license": "GPL-3.0",
+  "authors": [
+    {
+      "name": "Gauthier 'Rusty' Delamarre",
+      "email": "gauthier@objective-php.org",
+      "role": "lead"
+    }
+  ],
+  "require": {
+    "php": ">=7.1",
+    "objective-php/primitives": "^1.3",
+    "maximebf/debugbar": "^1.15"
+  },
+  "require-dev": {
+    "codeception/codeception": "^2.4",
+    "objective-php/application": "^2.2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "ObjectivePHP\\DebuggingTools\\": "src/"
+    }
+  }
+}
