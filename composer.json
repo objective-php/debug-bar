@@ -1,13 +1,13 @@
 {
-  "name": "objective-php/debugging-tools",
-  "description": "Routing mechanism for Objective PHP",
+  "name": "objective-php/devtools",
+  "description": "Various extensiosn to ease development",
   "type": "package",
   "keywords": [
     "debugging",
     "debug bar",
     "objective php"
   ],
-  "homepage": "https://github.com/objective-php/debugging-tools",
+  "homepage": "https://github.com/objective-php/devtools",
   "license": "GPL-3.0",
   "authors": [
     {
@@ -27,7 +27,7 @@
   },
   "autoload": {
     "psr-4": {
-      "ObjectivePHP\\DebuggingTools\\": "src/"
+      "ObjectivePHP\\DevTools\\": "src/"
     }
   }
 }
