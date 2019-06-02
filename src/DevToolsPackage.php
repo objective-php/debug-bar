@@ -1,7 +1,7 @@
 <?php
 
 
-namespace ObjectivePHP\DebuggingTools;
+namespace ObjectivePHP\DevTools;
 
 
 use DebugBar\DataCollector\ConfigCollector;
@@ -15,9 +15,9 @@ use ObjectivePHP\Application\HttpApplicationInterface;
 use ObjectivePHP\Application\Package\AbstractPackage;
 use ObjectivePHP\Application\Workflow\WorkflowEvent;
 use ObjectivePHP\Application\Workflow\WorkflowEventInterface;
-use ObjectivePHP\DebuggingTools\DebugBar\Collector\EventsCollector;
-use ObjectivePHP\DebuggingTools\DebugBar\Collector\RoutingCollector;
-use ObjectivePHP\DebuggingTools\Router\AssetsRouter;
+use ObjectivePHP\DevTools\DebugBar\Collector\EventsCollector;
+use ObjectivePHP\DevTools\DebugBar\Collector\RoutingCollector;
+use ObjectivePHP\DevTools\Router\AssetsRouter;
 use ObjectivePHP\Events\EventInterface;
 use ObjectivePHP\Events\EventsHandler;
 use ObjectivePHP\Primitives\String\Camel;
@@ -25,7 +25,7 @@ use ObjectivePHP\Router\MetaRouter;
 use ObjectivePHP\Router\RouterInterface;
 use Zend\Diactoros\Response;
 
-class DebuggingToolsPackage extends AbstractPackage
+class DevToolsPackage extends AbstractPackage
 {
 
 
@@ -43,7 +43,7 @@ class DebuggingToolsPackage extends AbstractPackage
         // instantiate the DebugBar
         $debugBar = $this->initDebugBar();
         $this->bindEvents($engine->getEventsHandler());
-        $engine->getServicesFactory()->registerRawService(['id' => 'debugging-tools.debugbar', 'instance' => $debugBar]);
+        $engine->getServicesFactory()->registerRawService(['id' => 'devtools.debugbar', 'instance' => $debugBar]);
 
         // handle assets from vendor
 
@@ -71,7 +71,7 @@ class DebuggingToolsPackage extends AbstractPackage
     public function addDebugBar(WorkflowEvent $event)
     {
         /** @var StandardDebugBar $debugbar */
-        $debugbar = $event->getApplication()->getServicesFactory()->get(StandardDebugBar::class);
+        $debugbar = $event->getApplication()->getServicesFactory()->get('devtools.debugbar');
 
         /** @var Response $response */
         $response = $event->getContext()['response'];

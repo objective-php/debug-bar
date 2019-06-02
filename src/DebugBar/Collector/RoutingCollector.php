@@ -1,7 +1,7 @@
 <?php
 
 
-namespace ObjectivePHP\DebuggingTools\DebugBar\Collector;
+namespace ObjectivePHP\DevTools\DebugBar\Collector;
 
 
 use DebugBar\DataCollector\DataCollectorInterface;
