@@ -6,6 +6,7 @@ namespace ObjectivePHP\DevTools;
 
 use DebugBar\DataCollector\ConfigCollector;
 use DebugBar\DataCollector\MemoryCollector;
+use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DataCollector\TimeDataCollector;
 use DebugBar\DebugBar;
@@ -27,7 +28,6 @@ use Zend\Diactoros\Response;
 
 class DevToolsPackage extends AbstractPackage
 {
-
 
     /**
      * @var DebugBar
@@ -94,6 +94,11 @@ class DevToolsPackage extends AbstractPackage
 
         $this->debugBar->addCollector(new EventsCollector());
 
+        $this->debugBar->getCollector('request')->useHtmlVarDumper();
+        /** @var MessagesCollector $messagesCollector */
+        $messagesCollector = $this->debugBar->getCollector('messages');
+        $messagesCollector->useHtmlVarDumper();
+
         return $this->debugBar;
 
     }
@@ -102,11 +107,16 @@ class DevToolsPackage extends AbstractPackage
     {
         $this->bindEventsCollector($eventsHandler);
         $this->bindTimeDataColector($eventsHandler);
+        $this->bindMessagesCollector($eventsHandler);
+    }
+
+    public function bindMessagesCollector(EventsHandler $eventsHandler)
+    {
+        $eventsHandler->bind('*.message.?', [$this, 'collectMessagesCollector']);
     }
 
     public function bindTimeDataColector(EventsHandler $eventsHandler)
     {
-
 
         $eventsHandler->bind('*.start', [$this, 'collectTimeDataBegin']);
         $eventsHandler->bind('*.done', [$this, 'collectTimeDataEnd']);
@@ -132,7 +142,7 @@ class DevToolsPackage extends AbstractPackage
 
     }
 
-    public function collectTimeDataEnd(WorkflowEvent $event)
+    public function collectTimeDataEnd(EventInterface $event)
     {
         /** @var TimeDataCollector $collector */
         $collector = $this->debugBar->getCollector('time');
@@ -144,6 +154,15 @@ class DevToolsPackage extends AbstractPackage
         $collector->stopMeasure(implode('.', $name));
 
 
+    }
+
+    public function collectMessagesCollector(EventInterface $event)
+    {
+        /** @var MessagesCollector $collector */
+        $collector = $this->getDebugBar()->getCollector('messages');
+        $parts = explode('.', $event->getName());
+        $label = array_pop($parts);
+        $collector->addMessage($event->getContext()->toArray(), $label);
     }
 
     public function bindEventsCollector(EventsHandler $eventsHandler)
